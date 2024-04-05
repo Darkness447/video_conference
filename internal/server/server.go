@@ -5,7 +5,8 @@ import (
 	"os"
 	"time"
 
-	"github.com/Darkness447/video_conference/internal/handlers"
+	"videoChat/internal/handlers"
+
 	"github.com/gofiber/contrib/websocket"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
@@ -19,7 +20,7 @@ var (
 	key  = flag.String("key", "", "")
 )
 
-func Run() {
+func Run() error {
 	flag.Parse()
 
 	if *addr == ":" {
@@ -37,7 +38,7 @@ func Run() {
 	app.Get("/room/:uuid/websocket", websocket.New(handlers.RoomWebsocket, websocket.Config{
 		HandshakeTimeout: 10 * time.Second,
 	}))
-	app.Get("/room/:uuid/chat", hand1lers.RoomChat)
+	app.Get("/room/:uuid/chat", handlers.RoomChat)
 	app.Get("/room/:uuid/chat/websocket", websocket.New(handlers.RoomChatWebsocket))
 	app.Get("/room/:uuid/viewer/websocket", websocket.New(handlers.RoomViewerWebsocket))
 	app.Get("/stream/:ssuid", handlers.Stream)
