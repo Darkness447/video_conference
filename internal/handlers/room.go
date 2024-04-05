@@ -3,6 +3,7 @@ package handlers
 import (
 	"fmt"
 
+	w "videoChat/pkg/webrtc"
 	"github.com/gofiber/contrib/websocket"
 	"github.com/gofiber/fiber/v2"
 	guuid "github.com/google/uuid"
@@ -19,6 +20,7 @@ func RoomWebsocket(c *websocket.Conn) {
 	}
 
 	_, _, room := createOrGetRoom(uuid)
+	w.RoomConn(c,room.Peers)
 }
 
 func Room(c *fiber.Ctx) error {
@@ -34,4 +36,18 @@ func Room(c *fiber.Ctx) error {
 
 func createOrGetRoom(uuid string) (string, string, Room) {
 
+}
+
+func RoomViewerWebsocket(c *websocket.Conn){
+
+}
+
+func roomViewerConn(c *websocket.Conn,p *w.Peers)
+{
+
+}
+
+type websocketMessage struct{
+	Event string `json:"event"`
+	Data string `json:"data"`
 }
